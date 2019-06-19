@@ -6,8 +6,8 @@ certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
 contextvars==2.4
-databases==0.2.2
 databases[postgresql]
+asyncpg
 dataclasses==0.6
 dnspython==1.16.0
 email-validator==1.0.4
