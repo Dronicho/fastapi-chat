@@ -5,7 +5,27 @@ from starlette.responses import HTMLResponse
 from starlette.websockets import WebSocket
 from app.db import database, Note, NoteIn, notes
 
+from starlette.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http:localhost",
+    "http:localhost:8080",
+    "http://localhost:8080",
+    "https://localhost:8080",
+    "htpps://pegass.herokuapp.com"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 html = """
 <!DOCTYPE html>
