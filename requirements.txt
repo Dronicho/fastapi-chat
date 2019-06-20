@@ -2,12 +2,13 @@ aiocontextvars==0.2.2
 aiofiles==0.4.0
 aiosqlite==0.10.0
 aniso8601==5.1.0
+bcrypt==3.1.7
 certifi==2019.3.9
+cffi==1.12.3
 chardet==3.0.4
 Click==7.0
 contextvars==2.4
-databases[postgresql]
-asyncpg
+databases==0.2.2
 dataclasses==0.6
 dnspython==1.16.0
 email-validator==1.0.4
@@ -23,8 +24,11 @@ Jinja2==2.10.1
 MarkupSafe==1.1.1
 nbconvert==5.4.1
 nejma==0.1.0
+passlib==1.7.1
 promise==2.2.1
+pycparser==2.19
 pydantic==0.26
+PyJWT==1.7.1
 python-dateutil==2.8.0
 python-multipart==0.0.5
 PyYAML==5.1.1
