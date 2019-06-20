@@ -1,9 +1,13 @@
 from typing import List
+
+from fastapi import Depends
+
 from app import app, html
 from starlette.websockets import WebSocket
 from starlette.responses import HTMLResponse
 from app.db import Note, NoteIn, database, messages, Message, notes, User, users
-
+from app.authenticate import get_current_active_user
+from app.authenticate import User as request_user
 
 @app.get("/")
 async def get():
@@ -65,3 +69,8 @@ async def create_note(user: User):
     query = users.insert().values(username=user.username)
     last_record_id = await database.execute(query)
     return {**user.dict(), "id": last_record_id}
+
+
+@app.get('/test', response_model=request_user)
+async def test_auth(token: request_user = Depends(get_current_active_user)):
+    return token

@@ -68,4 +68,4 @@ html = """
     </body>
 </html>
 """
-from app import routes, db, config, chat
+from app import routes, db, config, chat, authenticate
