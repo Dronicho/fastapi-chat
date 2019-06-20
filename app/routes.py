@@ -2,7 +2,7 @@ from typing import List
 from app import app, html
 from starlette.websockets import WebSocket
 from starlette.responses import HTMLResponse
-from app.db import Note, NoteIn, database, messages, Message, notes
+from app.db import Note, NoteIn, database, messages, Message, notes, User, users
 
 
 @app.get("/")
@@ -41,6 +41,12 @@ async def create_note(note: NoteIn):
     return {**note.dict(), "id": last_record_id}
 
 
+@app.get('/message/', response_model=List[Message])
+async def read_messages():
+    query = messages.select()
+    return await database.fetch_all(query)
+
+
 @app.post('/message/', response_model=Message)
 async def create_message(message: Message):
     query = messages.insert().values(text=message.text, author_id=message.author_id)
@@ -48,7 +54,14 @@ async def create_message(message: Message):
     return {**message.dict(), 'id': last_record_id}
 
 
-@app.get('/message/', response_model=Message)
-async def read_messages():
-    query = messages.select()
+@app.get('/users/', response_model=List[User])
+async def read_users():
+    query = users.select()
     return await database.fetch_all(query)
+
+
+@app.post("/users/", response_model=User)
+async def create_note(user: User):
+    query = users.insert().values(username=user.username)
+    last_record_id = await database.execute(query)
+    return {**user.dict(), "id": last_record_id}

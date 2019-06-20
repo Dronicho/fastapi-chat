@@ -1,4 +1,4 @@
-
+from typing import List
 import databases
 import sqlalchemy
 from pydantic import BaseModel
@@ -35,15 +35,15 @@ users = sqlalchemy.Table(
     Column('username', String),
 )
 
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    username = Column(String)
-    display_name = Column(String)
-    messages = relationship('Message', back_populates="user")
-
-    def __repr__(self):
-        return f'<User(id={self.id}, username={self.username}, display_name={self.display_name})>'
+# class User(Base):
+#     __tablename__ = 'users'
+#     id = Column(Integer, primary_key=True)
+#     username = Column(String)
+#     display_name = Column(String)
+#     messages = relationship('Message', back_populates="user")
+#
+#     def __repr__(self):
+#         return f'<User(id={self.id}, username={self.username}, display_name={self.display_name})>'
 
 
 # class Message(Base):
@@ -84,3 +84,8 @@ class Message(BaseModel):
     id: int
     text: str
     author_id: int
+
+
+class User(BaseModel):
+    id: int
+    username: str
