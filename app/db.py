@@ -68,6 +68,3 @@ else:
     )
 
 metadata.create_all(engine)
-
-
-

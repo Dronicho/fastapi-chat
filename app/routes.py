@@ -70,6 +70,6 @@ async def create_message(message: Message):
     return {**message.dict(), 'id': last_record_id}
 
 
-@app.get('/test', response_model=User)
+@app.get('/test', response_model=UserInDB)
 async def test_auth(token: User = Depends(get_current_active_user)):
     return token

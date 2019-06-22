@@ -91,7 +91,7 @@ html = """
     </body>
 </html>
 """
-from app import db
+from app import config, db
 conn = db.engine.connect()
-from app import routes, config, chat, authenticate, models, register
+from app import routes, chat, authenticate, models, register
 
