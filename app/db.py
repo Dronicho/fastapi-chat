@@ -33,6 +33,8 @@ users = sqlalchemy.Table(
     metadata,
     Column('id', Integer, primary_key=True),
     Column('username', String),
+    Column('email', String),
+    Column('hashed_password', String),
 )
 
 # class User(Base):
@@ -68,24 +70,4 @@ else:
 metadata.create_all(engine)
 
 
-class NoteIn(BaseModel):
-    id: int
-    text: str
-    completed: bool
 
-
-class Note(BaseModel):
-    id: int
-    text: str
-    completed: bool
-
-
-class Message(BaseModel):
-    id: int
-    text: str
-    author_id: int
-
-
-class User(BaseModel):
-    id: int
-    username: str

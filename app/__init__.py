@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.db import database, Note, NoteIn, notes
 
 from starlette.middleware.cors import CORSMiddleware
 app = FastAPI()
@@ -27,17 +26,41 @@ html = """
 <html>
     <head>
         <title>ws</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     </head>
     <body>
-        <h1>Nejma ⭐ Chat</h1>
-        <form action="" onsubmit="sendMessage(event)">
-            <label>username : </label><input type="text" id="username" autocomplete="off"/><br/>
-            <label>room id : </label><input type="text" id="roomId" autocomplete="off"/><br/>
-            <label>message : </label><input type="text" id="messageText" autocomplete="off"/><br/>
-            <button>Send</button>
-        </form>
-        <ul id='messages'>
-        </ul>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="column">
+                <form action="" onsubmit="sendMessage(event)">
+                    <div class="row mt-3">
+                    <input type="text" class="form-control" placeholder="Username" id="username" autocomplete="off"/>
+                    </div>
+                    <div class="row mt-3">
+                    <input type="text" class="form-control" placeholder="Room Id" id="roomId" autocomplete="off"/>
+                    </div>
+                    <div class="row mt-3">
+                    <input type="text" class="form-control" placeholder="Message" id="messageText" autocomplete="off"/>
+                    </div>
+                    <div class="row mt-3 justify-content-md-center">
+                    <button class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+                </div>
+            
+            </div>
+            <div class="row mt-6">
+            <ul id="messages">
+            </ul>
+            </dib>
+        </div>
+            
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
             var href = window.location.href
             href = href.replace('https', 'wss')
@@ -48,7 +71,7 @@ html = """
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
                 var data = JSON.parse(event.data);
-                message.innerHTML = `<strong>${data.username} :</strong> ${data.message}`;
+                message.innerHTML = `<h6 class="font-weight-bold text-primary">${data.username}</h6> <h5 class="">${data.message}</h5>`;
                 messages.appendChild(message);
             };
             function sendMessage(event) {
@@ -68,4 +91,7 @@ html = """
     </body>
 </html>
 """
-from app import routes, db, config, chat, authenticate
+from app import db
+conn = db.engine.connect()
+from app import routes, config, chat, authenticate, models, register
+

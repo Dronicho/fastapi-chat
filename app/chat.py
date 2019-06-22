@@ -2,6 +2,7 @@ from nejma.ext.starlette import WebSocketEndpoint
 import typing
 from starlette.websockets import WebSocket
 from app import app
+from app.db import database
 
 
 @app.websocket_route('/ws')
