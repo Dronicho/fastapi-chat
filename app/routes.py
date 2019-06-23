@@ -47,8 +47,8 @@ async def create_message(message: Message):
     if r == None:
         room_q = rooms.insert().values(name=message.room_name, messages=[])
         r = await database.execute(room_q)
-    last_record_id = await database.execute(query)
     query = messages.insert().values(text=message.text, username=message.username, room_name = message.room_id)
+    last_record_id = await database.execute(query)
     return {**message.dict(), 'id': last_record_id}
 
 
