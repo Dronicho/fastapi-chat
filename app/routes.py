@@ -10,7 +10,7 @@ from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Note, NoteIn, Message
 
 
-@app.get("/")
+@app.get("/chat")
 async def get():
     query = messages.select()
     async for row in database.iterate(query):
@@ -44,19 +44,6 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.get("/notes/", response_model=List[Note])
-async def read_notes():
-    query = notes.select()
-    return await database.fetch_all(query)
-
-
-@app.post("/notes/", response_model=Note)
-async def create_note(note: NoteIn):
-    query = notes.insert().values(text=note.text, completed=note.completed)
-    last_record_id = await database.execute(query)
-    return {**note.dict(), "id": last_record_id}
-
-
 @app.get('/message/', response_model=List[Message])
 async def read_messages():
     query = messages.select()
@@ -73,3 +60,9 @@ async def create_message(message: Message):
 @app.get('/test', response_model=UserInDB)
 async def test_auth(token: User = Depends(get_current_active_user)):
     return token
+
+
+@app.get('/search/{username}', response_model=UserInDB)
+async def get_user_by_username(username: str):
+    q = users.select().where(users.c.username == username)
+    return await database.fetch_one(q)

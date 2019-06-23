@@ -4,7 +4,7 @@ import sqlalchemy
 from pydantic import BaseModel
 from starlette.authentication import SimpleUser
 from app.config import DATABASE_URL
-from sqlalchemy import Table, Column, Integer, ForeignKey, String
+from sqlalchemy import Table, Column, Integer, ForeignKey, String, PickleType
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -25,16 +25,24 @@ messages = sqlalchemy.Table(
     metadata,
     Column('id', Integer, primary_key=True),
     Column('text', String),
-    Column('author_id', Integer, ForeignKey('users.id'), back_populates='users')
+    Column('username', Integer, ForeignKey('users.username'), back_populates='users'),
+    Column('room_id', Integer, ForeignKey('rooms.id'), back_populates='rooms')
 )
 
 users = sqlalchemy.Table(
     'users',
     metadata,
     Column('id', Integer, primary_key=True),
-    Column('username', String),
+    Column('username', String, unique=True),
     Column('email', String),
     Column('hashed_password', String),
+)
+
+rooms = sqlalchemy.Table(
+    'rooms',
+    metadata,
+    Column('id', Integer, primary_key=True),
+    Column('users', PickleType)
 )
 
 # class User(Base):

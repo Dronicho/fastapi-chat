@@ -93,5 +93,5 @@ html = """
 """
 from app import config, db
 conn = db.engine.connect()
-from app import routes, chat, authenticate, models, register
+from app import routes, chat, authenticate, models, register, crud
 

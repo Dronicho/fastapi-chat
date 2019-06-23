@@ -16,7 +16,8 @@ class Note(BaseModel):
 class Message(BaseModel):
     id: int
     text: str
-    author_id: int
+    username: str
+    room_id: int
 
 
 class Token(BaseModel):
