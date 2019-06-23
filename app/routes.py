@@ -5,7 +5,7 @@ from fastapi import Depends
 from app import app, html, conn
 from starlette.websockets import WebSocket
 from starlette.responses import HTMLResponse
-from app.db import database, messages, notes, users
+from app.db import database, messages, notes, users, rooms
 from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Note, NoteIn, Message
 
@@ -42,6 +42,11 @@ async def read_messages():
 
 @app.post('/message/', response_model=Message)
 async def create_message(message: Message):
+    room_q = rooms.select().where(rooms.c.id == message.room_id)
+    r = await database.fetch_one(room_q)
+    if r == None:
+        room_q = rooms.insert().values(name='132', messages=[])
+        r = await database.execute(room_q)
     query = messages.insert().values(text=message.text, username=message.username, room_id = message.room_id)
     last_record_id = await database.execute(query)
     return {**message.dict(), 'id': last_record_id}
