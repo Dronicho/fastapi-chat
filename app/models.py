@@ -17,7 +17,7 @@ class Message(BaseModel):
     id: int
     text: str
     username: str
-    room_name: int
+    room_name: str
 
 
 class Token(BaseModel):
@@ -33,11 +33,11 @@ class User(BaseModel):
     username: str
     email: str
     password: str
-    rooms: List[int]
+    rooms: List[str]
 
 
 class UserInDB(BaseModel):
     username: str
     email: str
     hashed_password: str
-    group_list: List[int]
+    group_list: List[str]
