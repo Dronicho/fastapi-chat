@@ -23,39 +23,38 @@ class Chat(WebSocketEndpoint):
                 payload = {
                     'username': row.username,
                     'message': row.text,
-                    'room_id': row.room_id
+                    'room_name': row.room_id
                 }
                 await self.channel.send(payload)
             self.first_send = False
         else:
 
-            room_id = data['room_id']
+            room_name = data['room_id']
             message = data['message']
             username = data.pop('username')
 
             record = {
                 'text': message,
                 'username': username,
-                'room_id': room_id
+                'room_name': room_name
             }
 
             user = await get_user(database, users, username)
             if user:
-                _ = await update_user_rooms(database, users, [int(room_id)], user.id)
+                _ = await update_user_rooms(database, users, [int(room_name)], user.id)
 
             lrid = await async_create(database, messages, **record)
             print('message saved with id:', lrid)
 
             if message.strip():
-                group = f'group_{room_id}'
+                group = f'group_{room_name}'
 
                 self.channel_layer.add(group, self.channel)
 
                 payload = {
                     'username': username,
                     'message': message,
-                    'room_id': room_id
+                    'room_name': room_name
                 }
 
                 await self.channel_layer.group_send(group, payload)
-                

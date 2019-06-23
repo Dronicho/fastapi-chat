@@ -17,7 +17,7 @@ class Message(BaseModel):
     id: int
     text: str
     username: str
-    room_id: int
+    room_name: int
 
 
 class Token(BaseModel):

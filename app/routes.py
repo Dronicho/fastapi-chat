@@ -42,10 +42,10 @@ async def read_messages():
 
 @app.post('/message/', response_model=Message)
 async def create_message(message: Message):
-    room_q = rooms.select().where(rooms.c.id == message.room_id)
+    room_q = rooms.select().where(rooms.c.name == message.room_name)
     r = await database.fetch_one(room_q)
     if r == None:
-        room_q = rooms.insert().values(name='132', messages=[])
+        room_q = rooms.insert().values(name=message.room_name, messages=[])
         r = await database.execute(room_q)
     query = messages.insert().values(text=message.text, username=message.username, room_id = message.room_id)
     last_record_id = await database.execute(query)
