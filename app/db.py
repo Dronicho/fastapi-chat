@@ -25,7 +25,7 @@ messages = sqlalchemy.Table(
     metadata,
     Column('id', Integer, primary_key=True),
     Column('text', String),
-    Column('username', Integer, ForeignKey('users.username'), back_populates='users'),
+    Column('username', String, ForeignKey('users.username'), back_populates='users'),
     Column('room_id', Integer, ForeignKey('rooms.id'), back_populates='rooms')
 )
 
