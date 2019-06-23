@@ -10,7 +10,7 @@ from app.authenticate import get_password_hash
 async def create_user(user: User):
     hash = get_password_hash(user.password)
     print('hashed password:', hash)
-    q = users.insert().values(email=user.email, username=user.username, hashed_password=hash)
+    q = users.insert().values(email=user.email, username=user.username, hashed_password=hash, group_list=user.rooms)
     last_record_id = await database.execute(q)
     return {**user.dict(), 'id': last_record_id}
 

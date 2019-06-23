@@ -36,13 +36,15 @@ users = sqlalchemy.Table(
     Column('username', String, unique=True),
     Column('email', String),
     Column('hashed_password', String),
+    Column('group_list', PickleType)
 )
 
 rooms = sqlalchemy.Table(
     'rooms',
     metadata,
     Column('id', Integer, primary_key=True),
-    Column('users', PickleType)
+    Column('name', String),
+    Column('messages', PickleType)
 )
 
 # class User(Base):

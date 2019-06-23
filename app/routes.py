@@ -10,18 +10,8 @@ from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Note, NoteIn, Message
 
 
-@app.get("/chat")
+@app.get("/")
 async def get():
-    query = messages.select()
-    async for row in database.iterate(query):
-        ms_id, ms_text, author_id = row
-        user_q = users.select().where(users.c.id == author_id)
-        res = await database.fetch_one(user_q)
-        if res == None:
-            user_name = 'Stanger'
-        else:
-            user_name = res[1]
-        print('text:', ms_text, 'author:', user_name)
     return HTMLResponse(html)
 
 
@@ -52,7 +42,7 @@ async def read_messages():
 
 @app.post('/message/', response_model=Message)
 async def create_message(message: Message):
-    query = messages.insert().values(text=message.text, author_id=message.author_id)
+    query = messages.insert().values(text=message.text, username=message.username, room_id = message.room_id)
     last_record_id = await database.execute(query)
     return {**message.dict(), 'id': last_record_id}
 

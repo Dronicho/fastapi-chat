@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import List
 
 class NoteIn(BaseModel):
     id: int
@@ -33,9 +33,11 @@ class User(BaseModel):
     username: str
     email: str
     password: str
+    rooms: List[int]
 
 
 class UserInDB(BaseModel):
     username: str
     email: str
     hashed_password: str
+    group_list: List[int]
