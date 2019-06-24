@@ -33,7 +33,7 @@ messages = sqlalchemy.Table(
     Column('id', Integer, primary_key=True),
     Column('text', String),
     Column('username', String, ForeignKey('users.username'), back_populates='users'),
-    Column('room_name', Integer, ForeignKey('rooms.name'), back_populates='rooms')
+    Column('room_name', String, ForeignKey('rooms.name'), back_populates='rooms')
 )
 
 
