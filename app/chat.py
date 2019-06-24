@@ -16,7 +16,7 @@ class Chat(WebSocketEndpoint):
 
         if self.first_send:
             print('Hello')
-            q = messages.select().where(messages.c.room_name == int(data['room_name']))
+            q = messages.select().where(messages.c.room_name == data['room_name'])
             async for row in database.iterate(q):
                 print('Sended:', row)
                 self.messages.append(row)
