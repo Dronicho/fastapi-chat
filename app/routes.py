@@ -61,3 +61,6 @@ async def test_auth(token: User = Depends(get_current_active_user)):
 async def get_user_by_username(username: str):
     q = users.select().where(users.c.username == username)
     return await database.fetch_one(q)
+
+
+@app.get('/rooms', response_model=)

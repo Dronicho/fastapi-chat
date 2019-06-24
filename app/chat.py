@@ -16,14 +16,14 @@ class Chat(WebSocketEndpoint):
 
         if self.first_send:
             print('Hello')
-            q = messages.select().where(messages.c.room_id == int(data['room_id']))
+            q = messages.select().where(messages.c.room_name == int(data['room_name']))
             async for row in database.iterate(q):
                 print('Sended:', row)
                 self.messages.append(row)
                 payload = {
                     'username': row.username,
                     'message': row.text,
-                    'room_name': row.room_id
+                    'room_name': row.room_name
                 }
                 await self.channel.send(payload)
             self.first_send = False

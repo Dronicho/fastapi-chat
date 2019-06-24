@@ -1,20 +1,9 @@
 from pydantic import BaseModel
 from typing import List
 
-class NoteIn(BaseModel):
-    id: int
-    text: str
-    completed: bool
-
-
-class Note(BaseModel):
-    id: int
-    text: str
-    completed: bool
-
 
 class Message(BaseModel):
-    id: int
+    id: int = None
     text: str
     username: str
     room_name: str
@@ -33,7 +22,7 @@ class User(BaseModel):
     username: str
     email: str
     password: str
-    rooms: List[str]
+    rooms: List[str] = None
 
 
 class UserInDB(BaseModel):
@@ -41,3 +30,9 @@ class UserInDB(BaseModel):
     email: str
     hashed_password: str
     group_list: List[str]
+
+
+class Room(BaseModel):
+    id: int = None
+    name: str
+    messages: List[str] = None
