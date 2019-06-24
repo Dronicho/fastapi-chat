@@ -79,7 +79,7 @@ html = """
                 var room = document.getElementById("roomId");
                 var input = document.getElementById("messageText");
                 var data = {
-                    "room_id": room.value, 
+                    "room_name": room.value, 
                     "username": username.value,
                     "message": input.value,
                 };

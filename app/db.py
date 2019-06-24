@@ -14,7 +14,7 @@ rooms = sqlalchemy.Table(
     metadata,
     Column('id', Integer, primary_key=True),
     Column('name', String, unique=True),
-    Column('messages', PickleType)
+    Column('messages', PickleType, default=list)
 )
 
 users = sqlalchemy.Table(

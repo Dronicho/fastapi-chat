@@ -67,3 +67,8 @@ async def get_user_by_username(username: str):
 async def get_rooms():
     q = rooms.select()
     return await database.fetch_all(q)
+
+
+@app.post('/rooms', response_model=Room)
+async def create_room(room: Room):
+    q = rooms.insert().values(name=room.name, )

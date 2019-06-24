@@ -17,7 +17,8 @@ class Chat(WebSocketEndpoint):
         if self.first_send:
             print('Hello')
             q = messages.select().where(messages.c.room_name == data['room_name'])
-            async for row in database.iterate(q):
+            res = await database.fetch_all(q)
+            for row in res:
                 print('Sended:', row)
                 self.messages.append(row)
                 payload = {
@@ -29,7 +30,7 @@ class Chat(WebSocketEndpoint):
             self.first_send = False
         else:
 
-            room_name = data['room_id']
+            room_name = data['room_name']
             message = data['message']
             username = data.pop('username')
 
