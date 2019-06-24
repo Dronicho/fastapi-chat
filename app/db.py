@@ -1,30 +1,19 @@
 from typing import List
 import databases
 import sqlalchemy
-from pydantic import BaseModel
-from starlette.authentication import SimpleUser
 from app.config import DATABASE_URL
 from sqlalchemy import Table, Column, Integer, ForeignKey, String, PickleType
-from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 database = databases.Database(DATABASE_URL)
 Base = declarative_base()
 metadata = sqlalchemy.MetaData()
 
-notes = sqlalchemy.Table(
-    'notes',
-    metadata,
-    sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("text", sqlalchemy.String),
-    sqlalchemy.Column("completed", sqlalchemy.Boolean),
-)
-
 rooms = sqlalchemy.Table(
     'rooms',
     metadata,
     Column('id', Integer, primary_key=True),
-    Column('name', String),
+    Column('name', String, unique=True),
     Column('messages', PickleType)
 )
 
