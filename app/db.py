@@ -20,13 +20,12 @@ notes = sqlalchemy.Table(
     sqlalchemy.Column("completed", sqlalchemy.Boolean),
 )
 
-messages = sqlalchemy.Table(
-    'messages',
+rooms = sqlalchemy.Table(
+    'rooms',
     metadata,
     Column('id', Integer, primary_key=True),
-    Column('text', String),
-    Column('username', String, ForeignKey('users.username'), back_populates='users'),
-    Column('room_name', Integer, ForeignKey('rooms.name'), back_populates='rooms')
+    Column('name', String),
+    Column('messages', PickleType)
 )
 
 users = sqlalchemy.Table(
@@ -39,13 +38,18 @@ users = sqlalchemy.Table(
     Column('group_list', PickleType)
 )
 
-rooms = sqlalchemy.Table(
-    'rooms',
+messages = sqlalchemy.Table(
+    'messages',
     metadata,
     Column('id', Integer, primary_key=True),
-    Column('name', String),
-    Column('messages', PickleType)
+    Column('text', String),
+    Column('username', String, ForeignKey('users.username'), back_populates='users'),
+    Column('room_name', Integer, ForeignKey('rooms.name'), back_populates='rooms')
 )
+
+
+
+
 
 # class User(Base):
 #     __tablename__ = 'users'
