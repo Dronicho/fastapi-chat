@@ -22,9 +22,9 @@ class Chat(WebSocketEndpoint):
                 print('Sended:', row)
                 self.messages.append(row)
                 payload = {
-                    'username': row.username,
-                    'message': row.text,
-                    'room_name': row.room_name
+                    'username': row['username'],
+                    'message': row['text'],
+                    'room_name': row['room_name']
                 }
                 await self.channel.send(payload)
             self.first_send = False
