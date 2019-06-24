@@ -7,7 +7,7 @@ from starlette.websockets import WebSocket
 from starlette.responses import HTMLResponse
 from app.db import database, messages, notes, users, rooms
 from app.authenticate import get_current_active_user
-from app.models import Token, TokenData, UserInDB, User, Note, NoteIn, Message
+from app.models import Token, TokenData, UserInDB, User, Message, Room
 
 
 @app.get("/")
@@ -63,4 +63,7 @@ async def get_user_by_username(username: str):
     return await database.fetch_one(q)
 
 
-@app.get('/rooms', response_model=)
+@app.get('/rooms', response_model=List[Room])
+async def get_rooms():
+    q = rooms.select()
+    return await database.fetch_all(q)
