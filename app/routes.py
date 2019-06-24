@@ -5,7 +5,7 @@ from fastapi import Depends
 from app import app, html, conn
 from starlette.websockets import WebSocket
 from starlette.responses import HTMLResponse
-from app.db import database, messages, notes, users, rooms
+from app.db import database, messages, users, rooms
 from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Message, Room
 
