@@ -2,10 +2,10 @@ from typing import List
 
 from fastapi import Depends
 
-from app import app, html, conn
+from app import app, html
 from starlette.websockets import WebSocket
 from starlette.responses import HTMLResponse
-from app.db import database, messages, users, rooms
+from app.db import database, messages, users, rooms, conn
 from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Message, Room
 
@@ -52,12 +52,12 @@ async def create_message(message: Message):
     return {**message.dict(), 'id': last_record_id}
 
 
-@app.get('/test', response_model=UserInDB)
+@app.get('/test', response_model=UserInDB, response_model_exclude=['hashed_password'])
 async def test_auth(token: User = Depends(get_current_active_user)):
     return token
 
 
-@app.get('/search/{username}', response_model=UserInDB)
+@app.get('/search/{username}', response_model=UserInDB, response_model_exclude=['hashed_password'])
 async def get_user_by_username(username: str):
     q = users.select().where(users.c.username == username)
     return await database.fetch_one(q)
@@ -71,4 +71,10 @@ async def get_rooms():
 
 @app.post('/rooms', response_model=Room)
 async def create_room(room: Room):
-    q = rooms.insert().values(name=room.name, )
+    q = rooms.insert().values(name=room.name)
+
+
+@app.delete('/message/{ms_id}')
+async def delete_message(ms_id: int):
+    q = messages.delete().where(messages.c.id == ms_id)
+    return await database.execute(q)

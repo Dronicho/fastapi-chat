@@ -17,6 +17,8 @@ class Chat(WebSocketEndpoint):
         if self.first_send:
             print('Hello')
             room_name = data['room_name']
+            group = f'group_{room_name}'
+            self.channel_layer.add(group, self.channel)
             await create_room(database, rooms, room_name)
             for name in room_name.split('_'):
                 _ = await update_user_rooms(database, users, [room_name], name)
@@ -35,10 +37,11 @@ class Chat(WebSocketEndpoint):
                 await self.channel.send(payload)
             self.first_send = False
         else:
-
             room_name = data['room_name']
             message = data['message']
             username = data.pop('username')
+
+            group = f'group_{room_name}'
 
             record = {
                 'text': message,
@@ -52,9 +55,7 @@ class Chat(WebSocketEndpoint):
             print('message saved with id:', lrid)
 
             if message.strip():
-                group = f'group_{room_name}'
 
-                self.channel_layer.add(group, self.channel)
 
                 payload = {
                     'username': username,

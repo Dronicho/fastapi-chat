@@ -8,9 +8,9 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 from starlette.status import HTTP_401_UNAUTHORIZED
 
-from app import app, conn
+from app import app
 from app.models import User, TokenData, Token, UserInDB
-from app.db import database, users
+from app.db import database, users, conn
 
 
 SECRET_KEY = 'eb68cd05a734d3baaaf20201c454d98089eb9bc3352675d0bda9d6cf6dbbd8d6'

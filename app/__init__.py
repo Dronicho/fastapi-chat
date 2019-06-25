@@ -20,7 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 html = """
 <!DOCTYPE html>
 <html>
@@ -91,7 +90,5 @@ html = """
     </body>
 </html>
 """
-from app import config, db
-conn = db.engine.connect()
-from app import routes, chat, authenticate, models, register, crud
 
+from app import config, db, routes, chat, authenticate, models, register, crud

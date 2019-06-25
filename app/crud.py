@@ -1,8 +1,6 @@
 import sqlalchemy
-from app import app
 
-from app.db import messages, users, rooms
-from app.authenticate import get_current_active_user
+from app.db import users, rooms
 
 
 def create(executor, db: sqlalchemy.Table, **kwargs):

@@ -6,7 +6,7 @@ from app.models import User, UserInDB
 from app.authenticate import get_password_hash
 
 
-@app.post('/register', response_model=User)
+@app.post('/register', response_model=User, response_model_exclude=['hashed_password'])
 async def create_user(user: User):
     hash = get_password_hash(user.password)
     print('hashed password:', hash)
@@ -15,7 +15,7 @@ async def create_user(user: User):
     return {**user.dict(), 'id': last_record_id}
 
 
-@app.get('/register', response_model=List[UserInDB])
+@app.get('/register', response_model=List[UserInDB], response_model_exclude=['hashed_password'])
 async def get_users():
     q = users.select()
     return await database.fetch_all(q)
