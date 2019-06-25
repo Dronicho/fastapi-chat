@@ -21,7 +21,7 @@ async def update_user_rooms(ex, db: sqlalchemy.Table, rooms, username):
     q = db.select().where(users.c.username == username)
     user = await ex.fetch_one(q)
     print(user)
-    new_rooms = list(set(user.group_list + rooms))
+    new_rooms = list(set(user['group_list'] + rooms))
     update_q = db.update().where(users.c.username == username).values(group_list=new_rooms)
     return await ex.execute(update_q)
 
@@ -45,7 +45,7 @@ async def add_message_to_room(ex, db: sqlalchemy.Table, room_name, ms_id):
     q = db.select().where(rooms.c.name == room_name)
     res = await ex.fetch_one(q)
     if res:
-        new_messages = res.messages + [ms_id]
+        new_messages = res['messages'] + [ms_id]
         q = db.update().where(rooms.c.name == room_name).values(messages=new_messages)
         return await ex.execute(q)
 
