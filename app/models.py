@@ -35,4 +35,4 @@ class UserInDB(BaseModel):
 class Room(BaseModel):
     id: int = None
     name: str
-    messages: List[str] = None
+    messages: List[int] = None
