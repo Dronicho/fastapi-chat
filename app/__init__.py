@@ -103,4 +103,4 @@ html = """
 </html>
 """
 
-from app import config, db, routes, chat, authenticate, models, register, crud
+from app import config, db, routes, chat, authenticate, models, register

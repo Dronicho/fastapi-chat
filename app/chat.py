@@ -3,8 +3,8 @@ import typing
 from starlette.websockets import WebSocket
 from app import app
 from app.db import database, messages, rooms, users
-from app.crud import async_create, update_user_rooms, get_user, create_room, add_message_to_room
 
+from utils.database import create, update, delete, find_by_col_name, select_all
 
 @app.websocket_route('/ws')
 class Chat(WebSocketEndpoint):
@@ -24,16 +24,15 @@ class Chat(WebSocketEndpoint):
 
             self.group = f'group_{room_name}'
             self.channel_layer.add(self.group, self.channel)
-            await create_room(database, rooms, room_name)
+            await create(rooms, name=room_name)
+
             for name in room_name.split('_'):
-                _ = await update_user_rooms(database, users, [room_name], name)
+                _ = await update(users, {'username': name}, 'group_list', [room_name])
 
-            q = messages.select().where(messages.c.room_name == data['room_name'])
-
-            res = await database.fetch_all(q)
             message_list = []
-            for row in res:
-                print('Sended:', row)
+            messages_from_room = await select_all(messages, 'room_name', data['room_name'])
+            for row in messages_from_room:
+                print('Sent:', row)
                 payload = {
                     'username': row['username'],
                     'message': row['text'],
@@ -54,14 +53,12 @@ class Chat(WebSocketEndpoint):
                 'room_name': room_name
             }
 
-            lrid = await async_create(database, messages, **record)
-            _ = await add_message_to_room(database, rooms, room_name, lrid)
+            lrid = await create(messages, **record)
+            _ = await update(rooms, {'name': room_name}, lrid)
 
             print('message saved with id:', lrid)
 
             if message.strip():
-
-
                 payload = {
                     'username': username,
                     'message': message,

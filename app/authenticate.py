@@ -1,15 +1,14 @@
 from datetime import datetime, timedelta
 import databases
 import jwt
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jwt import PyJWTError
 from passlib.context import CryptContext
-from pydantic import BaseModel
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from app import app
-from app.models import User, TokenData, Token, UserInDB
+from app.models import User, TokenData, Token
 from app.db import database, users, conn
 
 
@@ -48,6 +47,7 @@ def get_user(db: databases.Database, username: str):
     res = conn.execute(q).fetchone()
     print(res)
     return res
+
 
 def authenticate_user(db: databases.Database, username: str, password: str):
     user = get_user(db, username)
