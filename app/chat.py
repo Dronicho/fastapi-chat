@@ -9,16 +9,21 @@ from app.crud import async_create, update_user_rooms, get_user, create_room, add
 @app.websocket_route('/ws')
 class Chat(WebSocketEndpoint):
     encoding = 'json'
-    first_send = True
-    messages = []
+    group = ''
 
     async def on_receive(self, websocket: WebSocket, data: typing.Any):
 
-        if self.first_send:
-            print('Hello')
+        ms_type = data['type']
+
+        if ms_type == 'change_room':
+            print('changing room...')
             room_name = data['room_name']
-            group = f'group_{room_name}'
-            self.channel_layer.add(group, self.channel)
+
+            if self.group:
+                self.channel_layer.remove(self.group, self.channel)
+
+            self.group = f'group_{room_name}'
+            self.channel_layer.add(self.group, self.channel)
             await create_room(database, rooms, room_name)
             for name in room_name.split('_'):
                 _ = await update_user_rooms(database, users, [room_name], name)
@@ -29,7 +34,6 @@ class Chat(WebSocketEndpoint):
             message_list = []
             for row in res:
                 print('Sended:', row)
-                self.messages.append(row)
                 payload = {
                     'username': row['username'],
                     'message': row['text'],
@@ -37,10 +41,7 @@ class Chat(WebSocketEndpoint):
                 }
                 message_list.append(payload)
             await self.channel.send(message_list)
-
-                
-            self.first_send = False
-        else:
+        elif ms_type == 'message':
             room_name = data['room_name']
             message = data['message']
             username = data.pop('username')

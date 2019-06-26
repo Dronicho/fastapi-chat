@@ -66,6 +66,17 @@ html = """
             href = href.replace('http', 'ws')
             href = href.replace('?', '')
             var ws = new WebSocket(href + 'ws');
+            
+            ws.onopen = function() {
+                data = {
+                "type": "change_room",
+                "room_name": "Alsu_Andrey",
+                "username": "Andrey",
+                }
+                ws.send(JSON.stringify(data))
+                event.preventDefault();
+            }
+            
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
@@ -78,6 +89,7 @@ html = """
                 var room = document.getElementById("roomId");
                 var input = document.getElementById("messageText");
                 var data = {
+                    "type": "message",
                     "room_name": room.value, 
                     "username": username.value,
                     "message": input.value,
