@@ -54,7 +54,7 @@ class Chat(WebSocketEndpoint):
             }
 
             lrid = await create(messages, **record)
-            _ = await update(rooms, {'name': room_name}, lrid)
+            _ = await update(rooms, {'name': room_name}, 'group_list', lrid)
 
             print('message saved with id:', lrid)
 
