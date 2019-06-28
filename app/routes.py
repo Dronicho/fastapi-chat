@@ -8,6 +8,9 @@ from starlette.responses import HTMLResponse
 from app.db import database, messages, users, rooms, conn
 from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Message, Room
+from authy.api import AuthyApiClient
+
+from twilio import
 
 
 @app.get("/")
@@ -70,3 +73,13 @@ async def create_room(room: Room):
 async def delete_message(ms_id: int):
     q = messages.delete().where(messages.c.id == ms_id)
     return await database.execute(q)
+
+@app.post('/verify_phone')
+async def start_verification(
+        *,
+        coutry_code: str,
+        phone_number: str,
+        method: str = 'sms'
+):
+
+
