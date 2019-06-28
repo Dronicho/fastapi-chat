@@ -10,8 +10,6 @@ from app.authenticate import get_current_active_user
 from app.models import Token, TokenData, UserInDB, User, Message, Room
 from authy.api import AuthyApiClient
 
-from twilio import
-
 
 @app.get("/")
 async def get():
