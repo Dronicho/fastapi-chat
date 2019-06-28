@@ -47,4 +47,4 @@ wincertstore==0.2
 asyncpg
 gunicorn
 authy
-twlilio
+twilio
