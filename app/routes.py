@@ -79,5 +79,4 @@ async def start_verification(
         phone_number: str,
         method: str = 'sms'
 ):
-
-
+    pass
