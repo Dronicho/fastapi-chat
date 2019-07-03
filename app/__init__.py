@@ -69,7 +69,7 @@ html = """
             
             ws.onopen = function() {
                 data = {
-                "type": "change_room",
+                "type": "connect",
                 "room_name": "Alsu_Andrey",
                 "username": "Andrey",
                 }

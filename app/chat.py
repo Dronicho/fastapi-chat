@@ -6,21 +6,25 @@ from app.db import database, messages, rooms, users
 
 from utils.database import create, update, delete, find_by_col_name, select_all
 
+
 @app.websocket_route('/ws')
 class Chat(WebSocketEndpoint):
     encoding = 'json'
     group = ''
+    user = None
 
     async def on_receive(self, websocket: WebSocket, data: typing.Any):
 
         ms_type = data['type']
 
+        if ms_type == 'connect':
+            self.user = await find_by_col_name(users, 'username', data['username'])
+            for name in self.user.group_list:
+                self.channel_layer.add(f'group_{name}', self.channel)
+
         if ms_type == 'change_room':
             print('changing room...')
             room_name = data['room_name']
-
-            if self.group:
-                self.channel_layer.remove(self.group, self.channel)
 
             self.group = f'group_{room_name}'
             self.channel_layer.add(self.group, self.channel)
