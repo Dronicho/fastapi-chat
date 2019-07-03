@@ -18,9 +18,23 @@ class Chat(WebSocketEndpoint):
         ms_type = data['type']
 
         if ms_type == 'connect':
+            response = {}
+            used_rooms = set()
             self.user = await find_by_col_name(users, 'username', data['username'])
             for name in self.user.group_list:
                 self.channel_layer.add(f'group_{name}', self.channel)
+                room = await find_by_col_name(rooms, 'name', name)
+                if not(room is None) and name not in used_rooms:
+                    for ms_id in room['messages']:
+                        ms = await find_by_col_name(messages, 'id', ms_id)
+                        message = {
+                            'username': ms['username'],
+                            'message': ms['text'],
+                            'room_name': ms['room_name']
+                        }
+                        response[name] = response.get(name, list()) + [message]
+                used_rooms.add(name)
+            await self.channel.send(response)
 
         if ms_type == 'change_room':
             print('changing room...')
