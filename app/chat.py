@@ -43,7 +43,7 @@ class Chat(WebSocketEndpoint):
 
             self.group = f'group_{room_name}'
             self.channel_layer.add(self.group, self.channel)
-            await create(rooms, name=room_name)
+            await create(rooms, name=room_name, messages=[])
 
             for name in room_name.split('_'):
                 _ = await update(users, {'username': name}, 'group_list', [room_name])

@@ -65,6 +65,8 @@ async def get_rooms():
 @app.post('/rooms', response_model=Room)
 async def create_room(room: Room):
     q = rooms.insert().values(name=room.name)
+    lrid = await database.execute(q)
+    return {**room.dict(), 'id': lrid}
 
 
 @app.delete('/rooms/{room_name}')
