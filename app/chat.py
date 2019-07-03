@@ -35,6 +35,8 @@ class Chat(WebSocketEndpoint):
                         }
                         response[name] = response.get(name, list()) + [message]
                 used_rooms.add(name)
+            add_rooms = {name: [] for name in used_rooms - set(response.keys())}
+            response.update(add_rooms)
             await self.channel.send(response)
         elif ms_type == 'change_room':
             print('changing room...')
