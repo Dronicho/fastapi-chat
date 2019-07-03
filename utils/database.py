@@ -56,6 +56,7 @@ async def update(db: Table, selector: dict, col_name: str, value, update_type='e
     if ob:
         if update_type == 'extend':
             new_value = ob[col_name] + value
+            new_value = list(set(new_value))
         elif update_type == 'replace':
             new_value = value
         else:

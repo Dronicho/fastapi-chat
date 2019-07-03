@@ -25,6 +25,7 @@ class Chat(WebSocketEndpoint):
                 self.channel_layer.add(f'group_{name}', self.channel)
                 room = await find_by_col_name(rooms, 'name', name)
                 if not(room is None) and name not in used_rooms:
+
                     for ms_id in room['messages']:
                         ms = await find_by_col_name(messages, 'id', ms_id)
                         message = {

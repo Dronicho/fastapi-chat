@@ -67,10 +67,17 @@ async def create_room(room: Room):
     q = rooms.insert().values(name=room.name)
 
 
+@app.delete('/rooms/{room_name}')
+async def delete_room(room_name: str):
+    q = rooms.delete().where(rooms.c.name == room_name)
+    return await database.execute(q)
+
+
 @app.delete('/message/{ms_id}')
 async def delete_message(ms_id: int):
     q = messages.delete().where(messages.c.id == ms_id)
     return await database.execute(q)
+
 
 @app.post('/verify_phone')
 async def start_verification(
