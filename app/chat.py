@@ -14,7 +14,7 @@ class Chat(WebSocketEndpoint):
     user = None
 
     async def on_receive(self, websocket: WebSocket, data: typing.Any):
-
+        print(data)
         ms_type = data['type']
 
         if ms_type == 'connect':
@@ -36,8 +36,7 @@ class Chat(WebSocketEndpoint):
                         response[name] = response.get(name, list()) + [message]
                 used_rooms.add(name)
             await self.channel.send(response)
-
-        if ms_type == 'change_room':
+        elif ms_type == 'change_room':
             print('changing room...')
             room_name = data['room_name']
 
