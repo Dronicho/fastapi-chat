@@ -20,7 +20,7 @@ def upgrade():
     op.create_table(
         'rooms',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('name', sa.String),
+        sa.Column('name', sa.String, unique=True),
         sa.Column('messages', sa.PickleType, default=list)
     )
 
