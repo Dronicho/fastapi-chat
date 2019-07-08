@@ -17,7 +17,7 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column('messages', sa.Column('timestamp', sa.DateTime, default=datetime.datetime.now, nullable=False))
+    op.add_column('messages', sa.Column('timestamp', sa.DateTime, default=datetime.datetime.now))
 
 
 def downgrade():

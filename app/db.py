@@ -35,7 +35,7 @@ messages = sqlalchemy.Table(
     Column('text', String),
     Column('username', String, ForeignKey('users.username'), back_populates='users'),
     Column('room_name', String, ForeignKey('rooms.name'), back_populates='rooms'),
-    Column('timestamp', sqlalchemy.DateTime, default=datetime.datetime.now, nullable=False),
+    Column('timestamp', sqlalchemy.DateTime, default=datetime.datetime.now),
     Column('viewed', PickleType, default=dict)
 )
 
