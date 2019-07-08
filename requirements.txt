@@ -66,4 +66,3 @@ wincertstore==0.2
 wrapt==1.11.2
 asyncpg
 gunicorn
-twilio
