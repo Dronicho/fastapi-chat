@@ -21,6 +21,7 @@ async def select_all(db: Table, col_name, target):
     :param selector:
     :return:
     """
+    
     q = db.select().where(db.c[col_name] == target)
     return await database.fetch_all(q)
 
@@ -35,10 +36,11 @@ async def create(db: Table, **kwargs):
     try:
         q = db.insert().values(**kwargs)
         return await database.execute(q)
-    except:
+    except Exception as e:
+        print(e)
         val = ''
         for item in kwargs.items():
-            val += f'{item[0]}={item[1]}'
+            val += f'{item[0]}={item[1]} '
         print(f'record {db.name}({val}) already exists')
 
 

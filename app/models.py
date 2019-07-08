@@ -7,6 +7,8 @@ class Message(BaseModel):
     text: str
     username: str
     room_name: str
+    viewed: dict = None
+    timestamp: str = None
 
 
 class Token(BaseModel):

@@ -45,10 +45,16 @@ html = """
                     <div class="row mt-3">
                     <input type="text" class="form-control" placeholder="Message" id="messageText" autocomplete="off"/>
                     </div>
+                    <div class="row mt-3">
+                    <input type="text" class="form-control" placeholder="ms id" id="messageId" autocomplete="off"/>
+                    </div>
                     <div class="row mt-3 justify-content-md-center">
                     <button class="btn btn-primary">Send</button>
                     </div>
                 </form>
+                
+                <button class="btn btn-primary" onclick="changeRoom(event)">ChangeRoom</button>
+                <button class="btn btn-primary" onclick="updateView(event)">update View</button>
                 </div>
             
             </div>
@@ -97,6 +103,35 @@ html = """
                 ws.send(JSON.stringify(data));
                 input.value = '';
                 event.preventDefault();
+            };
+            function changeRoom(event) {
+                var username = document.getElementById("username");
+                var room = document.getElementById("roomId");
+                var input = document.getElementById("messageText");
+                var data = {
+                    "type": "create_room",
+                    "room_name": room.value
+                }
+                ws.send(JSON.stringify(data));
+                input.value = "";
+                event.preventDefault();
+                
+            }
+            function updateView(event) {
+                var username = document.getElementById("username");
+                var room = document.getElementById("roomId");
+                var input = document.getElementById("messageText");
+                var ms_id = document.getElementById("messageId");
+                var data = {
+                    "type": "view",
+                    "room_name": room.value,
+                    "username": username.value,
+                    "message_id": ms_id.value
+                }
+                ws.send(JSON.stringify(data));
+                input.value = "";
+                event.preventDefault();
+                
             }
         </script>
     </body>
