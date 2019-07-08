@@ -74,7 +74,6 @@ class Chat(WebSocketEndpoint):
                     viewed.update({name: True})
                     print(viewed)
                     _ = await update(messages, {'id': ms_id}, 'viewed', viewed, update_type='replace')
-ир
             payload = {
                 'type': 'update_message_viewed',
                 'message_id': ms_id,
