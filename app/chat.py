@@ -85,7 +85,7 @@ class Chat(WebSocketEndpoint):
         elif ms_type == 'message':
             room_name = data['room_name']
             message = data['message']
-            username = data.pop('username')
+            username = data['username']
 
             group = f'group_{room_name}'
 
@@ -94,7 +94,7 @@ class Chat(WebSocketEndpoint):
                 'username': username,
                 'room_name': room_name,
                 'viewed': {name: False for name in room_name.split('_')},
-                'timestamp': datetime.datetime.now()
+                'timestamp': datetime.datetime.utcnow()
             }
 
             lrid = await create(messages, **record)
@@ -104,9 +104,4 @@ class Chat(WebSocketEndpoint):
             print('message saved with id:', lrid)
 
             if message.strip():
-                payload = {
-                    'username': username,
-                    'message': message,
-                    'room_name': room_name
-                }
-                await self.channel_layer.group_send(group, payload)
+                await self.channel_layer.group_send(group, record)
