@@ -6,7 +6,7 @@ aniso8601==5.1.0
 astroid==2.2.5
 authy==2.2.3
 bcrypt==3.1.7
-certifi==2019.3.9
+certifi==2022.12.7
 cffi==1.12.3
 chardet==3.0.4
 Click==7.0
